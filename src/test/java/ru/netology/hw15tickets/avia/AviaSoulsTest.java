@@ -109,10 +109,28 @@ public class AviaSoulsTest {
     }
 
     @Test
-    public void shouldSearchTickets() {
+    public void shouldSearchOneTicket() {
+
+        Ticket[] expected = { ticket3 };
+        Ticket[] actual = souls.search("Москва", "Благовещенск");
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchSeveralTickets() {
 
         Ticket[] expected = { ticket2, ticket5, ticket6, ticket7, ticket1 };
         Ticket[] actual = souls.search("Москва", "Хабаровск");
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchNoneTickets() {
+
+        Ticket[] expected = {};
+        Ticket[] actual = souls.search("Москва", "Красноярск");
 
         Assertions.assertArrayEquals(expected, actual);
     }
@@ -159,11 +177,31 @@ public class AviaSoulsTest {
     }
 
     @Test
-    public void shouldSearchAndSortByTime() {
+    public void shouldSearchAndSortByTimeOneTicket() {
+        TicketTimeComparator timeComparator = new TicketTimeComparator();
+
+        Ticket[] expected = { ticket4 };
+        Ticket[] actual = souls.searchAndSortBy("Москва", "Новосибирск", timeComparator);
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchAndSortByTimeSeveralTickets() {
         TicketTimeComparator timeComparator = new TicketTimeComparator();
 
         Ticket[] expected = { ticket2, ticket1, ticket6, ticket7, ticket5 };
         Ticket[] actual = souls.searchAndSortBy("Москва", "Хабаровск", timeComparator);
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchAndSortByTimeNoneTickets() {
+        TicketTimeComparator timeComparator = new TicketTimeComparator();
+
+        Ticket[] expected = {};
+        Ticket[] actual = souls.searchAndSortBy("Москва", "Красноярск", timeComparator);
 
         Assertions.assertArrayEquals(expected, actual);
     }
